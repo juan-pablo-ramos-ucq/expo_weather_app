@@ -10,7 +10,7 @@ export default function Home() {
 
     return (
       <>
-        <Header dummyUrl={dummyUrl} onProfileOpen={() => setProfileOpen(true)}/>
+        <Header dummyUrl={dummyUrl} onOpen={() => setProfileOpen(true)}/>
         <ProfileSheet
           imageUrl={dummyUrl}
           onClose={() => setProfileOpen(false)}
