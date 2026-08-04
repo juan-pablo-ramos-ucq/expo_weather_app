@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import Header from '../components/header';
+import Home from '../components/home';
 
 export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Home />
     </SafeAreaView>
   );
 }
