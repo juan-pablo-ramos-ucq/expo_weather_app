@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import Header from './header';
 import ProfileSheet from './ProfileSheet';
+import SearchBar from './SearchBar';
 import WeatherEmptyState from './WeatherEmptyState';
 
-const dummyUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&auto=format";
+const dummyUrl = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&auto=format';
 
 export default function Home() {
-    const [profileOpen, setProfileOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
     return (
       <>
         <Header dummyUrl={dummyUrl} onOpen={() => setProfileOpen(true)}/>
+        <SearchBar />
         <WeatherEmptyState />
         <ProfileSheet
           imageUrl={dummyUrl}
@@ -22,10 +23,4 @@ export default function Home() {
     );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-});
+
