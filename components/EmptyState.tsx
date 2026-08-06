@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function WeatherEmptyState() {
+export default function EmptyState() {
   return (
     <View style={styles.container}>
       <View style={styles.illustration}>
         <Text
-          accessibilityLabel="Planeta Tierra"
           allowFontScaling={false}
           style={styles.emoji}>
           🌎
@@ -18,7 +17,7 @@ export default function WeatherEmptyState() {
 
       <Text style={styles.description}>
         Search for any city or region to get real-time conditions and
-        today&apos;s hourly forecast.
+        today's hourly forecast.
       </Text>
     </View>
   );
@@ -35,15 +34,6 @@ const styles = StyleSheet.create({
 
     illustration: {
         marginBottom: 18,
-
-        shadowColor: '#2563EB',
-        shadowOffset: {
-            width: 0,
-            height: 6,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 8,
-
         elevation: 5,
     },
 
