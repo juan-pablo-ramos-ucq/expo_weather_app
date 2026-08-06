@@ -56,7 +56,7 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 		}
 
 		const controller = new AbortController(); // to cancel a stale HTTP request
-		const requestId = ++requestIdRef.current; // assign the same updated addition value to requestIdRef.current and requestID. requestIdRef.current++ would discard the updated addition in the assignment to the requestID.
+		const requestId = ++requestIdRef.current; // assign the same updated addition value to requestIdRef.current and requestID. Conversely, requestIdRef.current++ increments the current ref value, but it would discard the updated value in the assignment to requestID.
 
 		setIsLoading(true);
 		setError(null);
