@@ -42,11 +42,12 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [isFocused, setIsFocused] = useState(false);
+	const inputRef = useRef<TextInput>(null);
 	const requestIdRef = useRef(0);
+	const q = query.trim();
+	const hasText = q.length > 0;
 
 	useEffect(() => {
-		const q = query.trim();
-
 		if (!q) {
 			setResults([]);
 			setError(null);
@@ -101,18 +102,33 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 			controller.abort();
 			clearTimeout(timeoutId);
 		};
-	}, [query]);
+	}, [q]);
 
 	const showDropdown =
 		isFocused &&
-		query.trim().length > 0 &&
+		hasText &&
 		(results.length > 0 || error !== null);
+
+	const clearQuery = () => {
+		setQuery('');
+		setResults([]);
+		setError(null);
+		setIsFocused(true);
+		inputRef.current?.focus();
+	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.inputShell}>
-				<SearchIcon />
+				<View style={styles.leftAction}>
+					{isLoading ? (
+						<ActivityIndicator color="#94A3B8" size="small" />
+					) : (
+						<SearchIcon />
+					)}
+				</View>
 				<TextInput
+					ref={inputRef}
 					autoCapitalize="words"
 					autoCorrect={false}
 					placeholder="Search city or region..."
@@ -127,7 +143,18 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 					onFocus={() => setIsFocused(true)}
 					returnKeyType="search"
 				/>
-				{isLoading ? <ActivityIndicator color="#94A3B8" size="small" /> : null}
+				{hasText ? (
+					<Pressable
+						accessibilityLabel="Clear search"
+						accessibilityRole="button"
+						onPress={clearQuery}
+						style={({ pressed }) => [
+							styles.clearButton,
+							pressed && styles.clearButtonPressed,
+						]}>
+						<Text style={styles.clearText}>×</Text>
+					</Pressable>
+				) : null}
 			</View>
 
 			{showDropdown ? (
@@ -156,9 +183,6 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 									{formatLocation(result)}
 								</Text>
 							</View>
-							<Text style={styles.optionMeta}>
-								{result.latitude.toFixed(2)}, {result.longitude.toFixed(2)}
-							</Text>
 						</Pressable>
 					))}
 
@@ -174,40 +198,47 @@ const styles = StyleSheet.create({
 		marginTop: 18,
 	},
 	inputShell: {
-		minHeight: 72,
+		minHeight: 58,
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 14,
-		paddingHorizontal: 20,
+		gap: 10,
+		paddingLeft: 16,
+		paddingRight: 10,
 		borderWidth: 1,
 		borderColor: '#E4EAF2',
-		borderRadius: 28,
+		borderRadius: 22,
 		backgroundColor: '#FFFFFF',
 		shadowColor: '#0F172A',
-		shadowOffset: { width: 0, height: 12 },
-		shadowOpacity: 0.06,
-		shadowRadius: 24,
-		elevation: 4,
+		shadowOffset: { width: 0, height: 8 },
+		shadowOpacity: 0.05,
+		shadowRadius: 18,
+		elevation: 3,
+	},
+	leftAction: {
+		width: 24,
+		height: 24,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	iconWrap: {
-		width: 28,
-		height: 28,
+		width: 24,
+		height: 24,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	iconCircle: {
-		width: 19,
-		height: 19,
-		borderWidth: 2.3,
+		width: 16,
+		height: 16,
+		borderWidth: 2,
 		borderColor: '#90A0B6',
 		borderRadius: 12,
 	},
 	iconHandle: {
 		position: 'absolute',
 		right: 1,
-		bottom: 2,
-		width: 10,
-		height: 2.3,
+		bottom: 3,
+		width: 8,
+		height: 2,
 		borderRadius: 2,
 		backgroundColor: '#90A0B6',
 		transform: [{ rotate: '45deg' }],
@@ -215,9 +246,26 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		fontFamily: 'Nunito_600SemiBold',
-		fontSize: 17,
+		fontSize: 15.5,
 		color: '#1F2A3B',
 		paddingVertical: 0,
+	},
+	clearButton: {
+		width: 34,
+		height: 34,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 17,
+		backgroundColor: '#F3F6FA',
+	},
+	clearButtonPressed: {
+		opacity: 0.72,
+	},
+	clearText: {
+		marginTop: -1,
+		fontSize: 22,
+		lineHeight: 22,
+		color: '#6F7D90',
 	},
 	dropdown: {
 		marginTop: 10,
@@ -260,11 +308,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'Nunito_600SemiBold',
 		fontSize: 13,
 		color: '#8A97AA',
-	},
-	optionMeta: {
-		fontFamily: 'Nunito_600SemiBold',
-		fontSize: 12,
-		color: '#6F7D90',
 	},
 	emptyState: {
 		paddingHorizontal: 18,
