@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-    ActivityIndicator,
-    Pressable,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+	ActivityIndicator,
+	Pressable,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
 } from 'react-native';
 
 type GeocodingResult = {
@@ -43,7 +43,7 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isFocused, setIsFocused] = useState(false);
 	const inputRef = useRef<TextInput>(null);
-	const requestIdRef = useRef(0);
+	const requestIdRef = useRef(0); // a value that persists between re-renders without ever triggering a component render. useRef creates this object: { current: 0 }
 	const q = query.trim();
 	const hasText = q.length > 0;
 
@@ -55,8 +55,8 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 			return;
 		}
 
-		const controller = new AbortController();
-		const requestId = ++requestIdRef.current;
+		const controller = new AbortController(); // to cancel a stale HTTP request
+		const requestId = ++requestIdRef.current; // assign the same updated addition value to requestIdRef.current and requestID. requestIdRef.current++ would discard the updated addition in the assignment to the requestID.
 
 		setIsLoading(true);
 		setError(null);
@@ -75,9 +75,25 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 				const data = await response.json();
 
 				if (requestId !== requestIdRef.current) {
+					/*
+					It is like the call stack. Each call instance of the anonymous async fetch function has its own local variable values
+					(e.g., requestId), even when all function instances share the same variable names.
+					
+					Conversely, they have a shared reference in common, i.e., requestIdRef.current, which is guaranteed to contain the 
+					latest fetch request ID.
+
+					Each fetch function instance checks whether its fetch request is the current one by comparing its local requestId with 
+					the shared reference. If they do not match, it means that the fetch function instance is stale and can be freed from 
+					memory using the useEffect return statement.
+					*/
 					return;
 				}
 
+				/*
+				Even though the Open-Meteo API response always returns an array for the results property, checking it with 
+				Array.isArray() is a safe defensive way to handle API responses when the status code is not 200, which may 
+				not return an array.
+				*/
 				setResults(Array.isArray(data?.results) ? data.results : []);
 				setError(
 					Array.isArray(data?.results) && data.results.length === 0
@@ -86,6 +102,10 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 				);
 			} catch {
 				if (controller.signal.aborted || requestId !== requestIdRef.current) {
+					/*
+					Ignore the error if this is a stale anonymous fetch function instance whose request was aborted.
+					Note: controller.abort() causes the stale anonymous fetch function to enter the catch block.
+					*/
 					return;
 				}
 
@@ -99,6 +119,7 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 		}, 280);
 
 		return () => {
+			// Freeing stale anonymous fetch function instances from memory
 			controller.abort();
 			clearTimeout(timeoutId);
 		};
