@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Header from './header';
 import ProfileSheet from './ProfileSheet';
+import WeatherEmptyState from './WeatherEmptyState';
 
 const dummyUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&auto=format";
 
@@ -11,6 +12,7 @@ export default function Home() {
     return (
       <>
         <Header dummyUrl={dummyUrl} onOpen={() => setProfileOpen(true)}/>
+        <WeatherEmptyState />
         <ProfileSheet
           imageUrl={dummyUrl}
           onClose={() => setProfileOpen(false)}
