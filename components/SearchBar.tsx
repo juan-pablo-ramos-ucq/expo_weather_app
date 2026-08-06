@@ -27,9 +27,9 @@ export default function SearchBar({
 }) {
     const [q, setQ] = useState('');
     const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState<GeoResult[]>([]);
-    const debounceRef = useRef<number | null>(null);
-    const abortRef = useRef<AbortController | null>(null);
+    const [results, setResults] = useState<GeoResult[]>([]); // this state will receive an array of GeoResult objects and will be initialized with an empty array of the same object type
+    const debounceRef = useRef<number | null>(null); // this state can contain a number or null. It is initialized with null.
+    const abortRef = useRef<AbortController | null>(null); // this state can contain an AbortController or null. It is initialized with null.
 
     useEffect(() => {
         if (!q) {
