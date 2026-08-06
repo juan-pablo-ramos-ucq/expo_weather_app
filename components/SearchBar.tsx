@@ -188,11 +188,11 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 								setResults([]);
 								setError(null);
 								setIsFocused(false);
-								onSelectLocation?.(result);
+								onSelectLocation?.(result); //the definition of this function is pending. It will be potentially useful once show-weather screen is implemented.
 							}}
 							style={({ pressed }) => [
 								styles.option,
-								index !== results.length - 1 && styles.optionDivider,
+								index !== results.length - 1 && styles.optionDivider, // place a gray line divider between options. It would not be sensible to place the divider to the last result.
 								pressed && styles.optionPressed,
 							]}>
 							<View style={styles.optionTextBlock}>
