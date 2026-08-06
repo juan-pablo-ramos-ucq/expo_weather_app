@@ -128,8 +128,9 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 	const showDropdown =
 		isFocused &&
 		hasText &&
-		(results.length > 0 || error !== null);
+		(results.length > 0 || error !== null); //If the user has typed text and is using the search bar, and if the search bar has an error or results to show.
 
+	// This callback is especially useful when the user clicks the clear/cancel icon in the search bar to erase everything they typed.
 	const clearQuery = () => {
 		setQuery('');
 		setResults([]);
@@ -158,7 +159,7 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 					style={styles.input}
 					value={query}
 					onBlur={() => {
-						setTimeout(() => setIsFocused(false), 120);
+						setTimeout(() => setIsFocused(false), 120); //The small delay allows a dropdown result’s onPress handler to execute before the dropdown disappears.
 					}}
 					onChangeText={setQuery}
 					onFocus={() => setIsFocused(true)}
@@ -166,10 +167,9 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 				/>
 				{hasText ? (
 					<Pressable
-						accessibilityLabel="Clear search"
-						accessibilityRole="button"
 						onPress={clearQuery}
 						style={({ pressed }) => [
+							// Pressable passes this state object: { pressed: true }
 							styles.clearButton,
 							pressed && styles.clearButtonPressed,
 						]}>
@@ -183,9 +183,8 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 					{results.map((result, index) => (
 						<Pressable
 							key={`${result.id}-${index}`}
-							accessibilityRole="button"
 							onPress={() => {
-								setQuery(formatLocation(result));
+								setQuery(formatLocation(result)); //set the search bar field text to the result clicked by the user
 								setResults([]);
 								setError(null);
 								setIsFocused(false);
