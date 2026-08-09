@@ -4,12 +4,14 @@ import {
     isSuccessResponse,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import GoogleLogin from './GoogleLogin';
+import GoogleLogin from '../components/GoogleLogin';
 
 
 export default function GoogleLoginContainer() {
+    const router = useRouter();
     const [isSigningIn, setIsSigningIn] = useState(false);
 
     const handleContinueWithGoogle = async () => {
