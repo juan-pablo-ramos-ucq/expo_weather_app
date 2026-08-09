@@ -19,9 +19,6 @@ export default function GoogleLogin({
 
       <View style={styles.content}>
         <Pressable
-          accessibilityLabel="Continue with Google"
-          accessibilityRole="button"
-          accessibilityState={{ disabled }}
           disabled={disabled}
           onPress={onContinueWithGoogle}
           style={({ pressed }) => [
@@ -29,7 +26,6 @@ export default function GoogleLogin({
             pressed && styles.buttonPressed,
             disabled && styles.buttonDisabled,
           ]}>
-          <Text style={styles.googleMark}>G</Text>
           <Text style={styles.buttonText}>Continue with Google</Text>
         </Pressable>
       </View>
@@ -49,20 +45,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%'
   },
   button: {
-    width: '100%',
-    maxWidth: 360,
-    minHeight: 54,
-    paddingHorizontal: 20,
+    width: 220,
+    height: 54,
     borderWidth: 1,
     borderColor: '#D7E0E8',
     borderRadius: 16,
     backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     elevation: 2,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
   buttonPressed: {
     backgroundColor: '#F8FAFC',
@@ -71,17 +65,11 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     opacity: 0.5,
   },
-  googleMark: {
-    position: 'absolute',
-    left: 20,
-    color: '#4285F4',
-    fontFamily: 'Nunito_900Black',
-    fontSize: 20,
-  },
   buttonText: {
     color: '#1F2937',
     fontFamily: 'Nunito_600SemiBold',
     fontSize: 16,
-    lineHeight: 22,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
 });
