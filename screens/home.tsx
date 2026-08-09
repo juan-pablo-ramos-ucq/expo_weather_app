@@ -13,7 +13,7 @@ export default function Home() {
 
     return (
       <>
-        <Header dummyUrl={dummyUrl} onOpen={() => setProfileOpen(true)}/>
+        <Header imgUrl={user?.photo ? user?.photo : dummyUrl} onOpen={() => setProfileOpen(true)}/>
         <SearchBar />
         <EmptyState />
         <ProfileSheet

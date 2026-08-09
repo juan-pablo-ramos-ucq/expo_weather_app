@@ -2,16 +2,14 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import Avatar from './avatar';
 import Logo from './logo';
 
-export default function Header({ dummyUrl, onOpen } : { dummyUrl : string,  onOpen : () => void }) {
+export default function Header({ imgUrl, onOpen } : { imgUrl : string,  onOpen : () => void }) {
     return (
       <>
         <View style={styles.container}>
             <Logo />
             <Pressable
-              accessibilityLabel="Open profile"
-              accessibilityRole="button"
               onPress={onOpen}>
-              <Avatar imageUrl={dummyUrl} size={50}/>
+              <Avatar imageUrl={imgUrl} size={50}/>
             </Pressable>
         </View>
       </>

@@ -49,13 +49,17 @@ export default function ProfileSheet({
             <Text style={styles.closeText}>×</Text>
           </Pressable>
 
-          <Image source={{ uri: user. }} style={styles.avatar} />
-          <Text style={styles.name}>Alex Rivera</Text>
+          <Image source={
+            user?.photo
+              ? { uri: user.photo }
+              : require('../assets/images/default-avatar.png')
+          } style={styles.avatar} />
+          <Text style={styles.name}>{user?.givenName ?? 'User'}</Text>
           <Text style={styles.subtitle}>WeatherScope Member</Text>
 
           <View style={styles.details}>
-            <Detail label="FULL NAME" value="Alex Rivera" />
-            <Detail label="EMAIL" value="alex.rivera@weatherscope.app" />
+            <Detail label="FULL NAME" value={user?.name ?? 'Not provided'} />
+            <Detail label="EMAIL" value={user?.email ?? 'Not provided'} />
           </View>
         </View>
       </View>
