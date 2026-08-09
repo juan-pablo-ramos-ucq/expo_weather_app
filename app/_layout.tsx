@@ -7,6 +7,7 @@ import {
 import { Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import '../services/google-auth';
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
