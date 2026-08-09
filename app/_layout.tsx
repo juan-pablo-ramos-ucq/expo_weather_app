@@ -5,11 +5,14 @@ import {
   useFonts,
 } from '@expo-google-fonts/nunito';
 import { Stack } from 'expo-router';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { UserContext } from '../contexts/UserContext';
 import '../services/google-auth';
 
 export default function RootLayout() {
+  const [user, setUser] = useState(null);
   const [fontsLoaded, fontError] = useFonts({
     Nunito_400Regular,
     Nunito_600SemiBold,
@@ -25,14 +28,17 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Stack
-        screenOptions={{ 
-          headerShown: false,
-          contentStyle: styles.screen, 
-        }}
-      />
-    </SafeAreaProvider>
+    <UserContext.Provider value={{ user, setUser }}>
+      <SafeAreaProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: styles.screen,
+          }}
+        />
+      </SafeAreaProvider>
+    </UserContext.Provider>
+
   );
 }
 

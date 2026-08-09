@@ -12,7 +12,7 @@ import {
 type ProfileSheetProps = {
   visible: boolean;
   onClose: () => void; // specifies the callback type received from the parent—in this case with no arguments or return value.
-  imageUrl: string;
+  user: any;
 };
 
 function Detail({ label, value }: { label: string; value: string }) {
@@ -27,7 +27,7 @@ function Detail({ label, value }: { label: string; value: string }) {
 export default function ProfileSheet({
   visible,
   onClose,
-  imageUrl,
+  user,
 }: ProfileSheetProps) {
   return (
     <Modal
@@ -49,7 +49,7 @@ export default function ProfileSheet({
             <Text style={styles.closeText}>×</Text>
           </Pressable>
 
-          <Image source={{ uri: imageUrl }} style={styles.avatar} />
+          <Image source={{ uri: user. }} style={styles.avatar} />
           <Text style={styles.name}>Alex Rivera</Text>
           <Text style={styles.subtitle}>WeatherScope Member</Text>
 

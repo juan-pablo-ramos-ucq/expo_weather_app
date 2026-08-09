@@ -5,14 +5,16 @@ import {
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import GoogleLogin from '../components/GoogleLogin';
+import { UserContext } from '../contexts/UserContext';
 
 
 export default function GoogleLoginContainer() {
     const router = useRouter();
     const [isSigningIn, setIsSigningIn] = useState(false);
+    const { setUser } = useContext(UserContext);
 
     const handleContinueWithGoogle = async () => {
         try {
@@ -29,6 +31,8 @@ export default function GoogleLoginContainer() {
             }
 
             const { user } = response.data;
+
+            setUser(user);
 
             router.replace('/home');
 
