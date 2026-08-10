@@ -7,7 +7,7 @@ import {
 import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { UserContext } from '../contexts/UserContext';
 import '../services/google-auth';
 
@@ -30,12 +30,14 @@ export default function RootLayout() {
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <SafeAreaProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: styles.screen,
-          }}
-        />
+        <SafeAreaView style={styles.container}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: styles.screen,
+            }}
+          />
+        </SafeAreaView>
       </SafeAreaProvider>
     </UserContext.Provider>
 
@@ -47,5 +49,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     backgroundColor: '#FAFAFA',
+  },
+  container: {
+    flex: 1,
   },
 });
