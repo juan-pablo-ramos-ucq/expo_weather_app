@@ -13,7 +13,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "android": {
-      "package": "com.weatherscope.app",
+      "package": "com.weatherscope.expo",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "android": "expo run:android",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo-google-fonts/nunito": "^0.4.2",
