@@ -1,10 +1,6 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-
-type WeatherSummaryProps = {
-  latitude: number;
-  longitude: number;
-};
 
 type CurrentWeather = {
   temperature: number;
@@ -77,11 +73,20 @@ function getCardTheme(family: ConditionFamily, isDay: boolean) {
   return { backgroundColor: '#16233D', icon, showDots: false };
 }
 
-export default function WeatherSummary({ latitude, longitude }: WeatherSummaryProps) {
+export default function WeatherSummary() {
   const [weather, setWeather] = useState<CurrentWeather | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const requestIdRef = useRef(0);
+
+  const router = useRouter();
+  const params = useLocalSearchParams<{
+    latitude: string;
+    longitude: string;
+  }>();
+
+  const latitude = Number(params.latitude);
+  const longitude = Number(params.longitude);
 
   useEffect(() => {
     const controller = new AbortController();

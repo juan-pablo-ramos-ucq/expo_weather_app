@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -18,10 +19,6 @@ type GeocodingResult = {
 	country_code?: string;
 };
 
-type SearchBarProps = {
-	onSelectLocation?: (location: GeocodingResult) => void;
-};
-
 function SearchIcon() {
 	return (
 		<View style={styles.iconWrap}>
@@ -36,7 +33,7 @@ function formatLocation(result: GeocodingResult) {
 	return parts.join(', ');
 }
 
-export default function SearchBar({ onSelectLocation }: SearchBarProps) {
+export default function SearchBar() {
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState<GeocodingResult[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +43,8 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 	const requestIdRef = useRef(0); // a value that persists between re-renders without ever triggering a component render. useRef creates this object: { current: 0 }
 	const q = query.trim();
 	const hasText = q.length > 0;
+
+	const router = useRouter();
 
 	useEffect(() => {
 		if (!q) {
@@ -188,7 +187,14 @@ export default function SearchBar({ onSelectLocation }: SearchBarProps) {
 								setResults([]);
 								setError(null);
 								setIsFocused(false);
-								onSelectLocation?.(result); //the definition of this function is pending. It will be potentially useful once show-weather screen is implemented.
+
+								router.push({
+									pathname: '/WeatherSummary',
+									params: {
+										latitude: String(result.latitude),
+										longitude: String(result.longitude),
+									},
+								});
 							}}
 							style={({ pressed }) => [
 								styles.option,
