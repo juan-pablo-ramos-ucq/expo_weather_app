@@ -189,7 +189,7 @@ export default function SearchBar() {
 								setIsFocused(false);
 
 								router.push({
-									pathname: '/WeatherSummary',
+									pathname: '/Weather',
 									params: {
 										latitude: String(result.latitude),
 										longitude: String(result.longitude),
