@@ -21,7 +21,7 @@ export default function GoogleLoginContainer() {
             setIsSigningIn(true);
 
             await GoogleSignin.hasPlayServices({
-                showPlayServicesUpdateDialog: true,
+                showPlayServicesUpdateDialog: true, // Show dialog to prompt the user to install Play Services if they are not available
             });
 
             const response = await GoogleSignin.signIn();
