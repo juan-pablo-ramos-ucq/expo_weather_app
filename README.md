@@ -190,7 +190,3 @@ To bring this implementation closer to feature parity with the Flutter version:
 4. Add camera-based profile photo capture.
 5. Add explicit request timeouts and richer network-error handling.
 6. Add automated tests for authentication, search, and weather presentation.
-
-## Status
-
-This repository is actively being developed and is not yet at feature parity with the Flutter WeatherScope application.
